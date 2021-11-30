@@ -17,7 +17,10 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction1() {
-        final List<String> result = Collections.emptyList();
+        Variable one = new Variable(1);
+        Variable six = new Variable(6);
+        Function function = new FunctionBuilder(one, List.of(OperationType.SUM), six);
+        final List<String> result = function.getVariables();
 
         assertThat(result, empty());
     }
@@ -27,7 +30,10 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction2() {
-        final List<String> result = Collections.emptyList();
+        Variable twelve = new Variable(12);
+        Variable div = new Variable("div", 3);
+        Function function = new FunctionBuilder(twelve, List.of(OperationType.DIVIDE), div);
+        final List<String> result = function.getVariables();
 
         assertThat(result, containsInAnyOrder("div"));
     }
@@ -37,7 +43,11 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction3() {
-        final List<String> result = Collections.emptyList();
+        Variable nine = new Variable(9);
+        Variable x = new Variable("x");
+        Variable y = new Variable("y");
+        Function function = new FunctionBuilder(new FunctionBuilder(nine, List.of(OperationType.DIVIDE), x), List.of(OperationType.MULTIPLY), y);
+        final List<String> result = function.getVariables();
 
         assertThat(result, containsInAnyOrder("x", "y"));
     }
@@ -47,7 +57,11 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction4() {
-        final List<String> result = Collections.emptyList();
+        Variable a = new Variable("a", 3);
+        Variable b = new Variable("b", 2);
+        Variable twentySeven = new Variable(27);
+        Function function = new FunctionBuilder(new FunctionBuilder(twentySeven, List.of(OperationType.DIVIDE), a), List.of(OperationType.POWER), b);
+        final List<String> result = function.getVariables();
 
         assertThat(result, containsInAnyOrder("a", "b"));
     }
@@ -57,7 +71,9 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction5() {
-        final List<String> result = Collections.emptyList();
+        Variable z = new Variable("z", 4);
+        Function function = new FunctionBuilder(z, List.of(OperationType.POWER), new FunctionBuilder(new Variable(1), List.of(OperationType.DIVIDE), new Variable(2)));
+        final List<String> result = function.getVariables();
 
         assertThat(result, containsInAnyOrder("z"));
     }
@@ -67,7 +83,10 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction6() {
-        final List<String> result = Collections.emptyList();
+        Variable value = new Variable("value", 7, OperationType.MODULE);
+        Variable eight = new Variable(8);
+        Function function = new FunctionBuilder(value, List.of(OperationType.SUBTRACT), eight);
+        final List<String> result = function.getVariables();
 
         assertThat(result, containsInAnyOrder("value"));
     }
@@ -77,7 +96,10 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction7() {
-        final List<String> result = Collections.emptyList();
+        Variable value = new Variable("value", 7, OperationType.MODULE);
+        Variable eight = new Variable(8);
+        Function function = new FunctionBuilder(value, List.of(OperationType.SUBTRACT), eight);
+        final List<String> result = function.getVariables();
 
         assertThat(result, containsInAnyOrder("value"));
     }
@@ -87,7 +109,11 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction8() {
-        final List<String> result = Collections.emptyList();
+        Variable i = new Variable("i", 1);
+        Variable five = new Variable(5);
+        Variable eight = new Variable(8);
+        Function function = new FunctionBuilder(new FunctionBuilder(five, List.of(OperationType.SUBTRACT), i), List.of(OperationType.MULTIPLY), eight);
+        final List<String> result = function.getVariables();
 
         assertThat(result, containsInAnyOrder("i"));
     }
