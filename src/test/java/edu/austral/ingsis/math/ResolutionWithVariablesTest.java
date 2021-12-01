@@ -1,5 +1,6 @@
 package edu.austral.ingsis.math;
 
+import edu.austral.ingsis.math.visitors.EvaluateVisitor;
 import org.junit.Test;
 
 import java.util.List;
@@ -17,8 +18,12 @@ public class ResolutionWithVariablesTest {
     public void shouldResolveFunction1() {
         Variable one = new Variable(1);
         Variable x = new Variable("x", 3);
-        Function function = new FunctionBuilder(one, List.of(OperationType.SUM), x);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(one, OperationType.SUM, x);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(4d));
     }
@@ -30,8 +35,12 @@ public class ResolutionWithVariablesTest {
     public void shouldResolveFunction2() {
         Variable twelve = new Variable(12);
         Variable div = new Variable("div", 4);
-        Function function = new FunctionBuilder(twelve, List.of(OperationType.DIVIDE), div);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(twelve, OperationType.DIVIDE, div);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(3d));
     }
@@ -44,8 +53,12 @@ public class ResolutionWithVariablesTest {
         Variable nine = new Variable(9);
         Variable x = new Variable("x", 3);
         Variable y = new Variable("y", 4);
-        Function function = new FunctionBuilder(new FunctionBuilder(nine, List.of(OperationType.DIVIDE), x), List.of(OperationType.MULTIPLY), y);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(new FunctionBuilder(nine, OperationType.DIVIDE, x), OperationType.MULTIPLY, y);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(12d));
     }
@@ -57,8 +70,12 @@ public class ResolutionWithVariablesTest {
     public void shouldResolveFunction4() {
         Variable a = new Variable("a", 9);
         Variable b = new Variable("b", 3);
-        Function function = new FunctionBuilder(new FunctionBuilder(new Variable(27), List.of(OperationType.DIVIDE), a), List.of(OperationType.POWER), b);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(new FunctionBuilder(new Variable(27), OperationType.DIVIDE, a), OperationType.POWER, b);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(27d));
     }
@@ -71,8 +88,12 @@ public class ResolutionWithVariablesTest {
         Variable z = new Variable("z", 36);
         Variable one = new Variable(1);
         Variable two = new Variable(2);
-        Function function = new FunctionBuilder(z, List.of(OperationType.POWER), new FunctionBuilder(one, List.of(OperationType.DIVIDE), two));
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(z, OperationType.POWER, new FunctionBuilder(one, OperationType.DIVIDE, two));
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(6d));
     }
@@ -84,8 +105,12 @@ public class ResolutionWithVariablesTest {
     public void shouldResolveFunction6() {
         Variable value = new Variable("value", 8, OperationType.MODULE);
         Variable eight = new Variable(8);
-        Function function = new FunctionBuilder(value, List.of(OperationType.SUBTRACT), eight);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(value, OperationType.SUBTRACT, eight);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(0d));
     }
@@ -97,8 +122,12 @@ public class ResolutionWithVariablesTest {
     public void shouldResolveFunction7() {
         Variable value = new Variable("value", 8, OperationType.MODULE);
         Variable eight = new Variable(8);
-        Function function = new FunctionBuilder(value, List.of(OperationType.SUBTRACT), eight);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(value, OperationType.SUBTRACT, eight);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(0d));
     }
@@ -111,8 +140,12 @@ public class ResolutionWithVariablesTest {
         Variable five = new Variable(5);
         Variable i = new Variable("i", 2);
         Variable eight = new Variable(8);
-        Function function = new FunctionBuilder(new FunctionBuilder(five, List.of(OperationType.SUBTRACT), i), List.of(OperationType.MULTIPLY), eight);
-        final Double result = 24d;
+        Function function = new FunctionBuilder(new FunctionBuilder(five, OperationType.SUBTRACT, i), OperationType.MULTIPLY, eight);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(24d));
     }

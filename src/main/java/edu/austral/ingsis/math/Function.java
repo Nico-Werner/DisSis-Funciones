@@ -1,16 +1,12 @@
 package edu.austral.ingsis.math;
 
-import java.util.List;
+import edu.austral.ingsis.math.visitors.FunctionVisitor;
+
 
 public interface Function {
-    double evaluate();
-
-    String print();
-
-    void addVariables(List<String> variables);
-
-    List<String> getVariables();
 
     boolean isComposed();
+
+    void accept(FunctionVisitor visitor);
 
 }

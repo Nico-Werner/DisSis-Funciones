@@ -1,5 +1,6 @@
 package edu.austral.ingsis.math;
 
+import edu.austral.ingsis.math.visitors.EvaluateVisitor;
 import org.junit.Test;
 
 import java.util.List;
@@ -17,8 +18,12 @@ public class ResolutionTest {
     public void shouldResolveSimpleFunction1() {
         Variable one = new Variable(1);
         Variable six = new Variable(6);
-        Function function = new FunctionBuilder(one, List.of(OperationType.SUM), six);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(one, OperationType.SUM, six);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(7d));
     }
@@ -30,8 +35,12 @@ public class ResolutionTest {
     public void shouldResolveSimpleFunction2() {
         Variable twelve = new Variable(12);
         Variable two = new Variable(2);
-        Function function = new FunctionBuilder(twelve, List.of(OperationType.DIVIDE), two);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(twelve, OperationType.DIVIDE, two);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(6d));
     }
@@ -44,8 +53,12 @@ public class ResolutionTest {
         Variable nine = new Variable(9);
         Variable two = new Variable(2);
         Variable three = new Variable(3);
-        Function function = new FunctionBuilder(new FunctionBuilder(nine, List.of(OperationType.DIVIDE), two), List.of(OperationType.MULTIPLY), three);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(new FunctionBuilder(nine, OperationType.DIVIDE, two), OperationType.MULTIPLY, three);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(13.5d));
     }
@@ -58,8 +71,12 @@ public class ResolutionTest {
         Variable twentySeven = new Variable(27);
         Variable six = new Variable(6);
         Variable two = new Variable(2);
-        Function function = new FunctionBuilder(new FunctionBuilder(twentySeven, List.of(OperationType.DIVIDE), six), List.of(OperationType.POWER), two);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(new FunctionBuilder(twentySeven, OperationType.DIVIDE, six), OperationType.POWER, two);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(20.25d));
     }
@@ -72,8 +89,12 @@ public class ResolutionTest {
         Variable threeSix = new Variable(36);
         Variable one = new Variable(1);
         Variable two = new Variable(2);
-        Function function = new FunctionBuilder(threeSix, List.of(OperationType.POWER), new FunctionBuilder(one, List.of(OperationType.DIVIDE), two));
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(threeSix, OperationType.POWER, new FunctionBuilder(one, OperationType.DIVIDE, two));
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(6d));
     }
@@ -85,7 +106,11 @@ public class ResolutionTest {
     public void shouldResolveSimpleFunction6() {
         Variable oneThirtySix = new Variable("a", 136, OperationType.MODULE);
         Function function = oneThirtySix;
-        final Double result = function.evaluate();
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(136d));
     }
@@ -97,7 +122,11 @@ public class ResolutionTest {
     public void shouldResolveSimpleFunction7() {
         Variable oneThirtySix = new Variable("a", -136, OperationType.MODULE);
         Function function = oneThirtySix;
-        final Double result = function.evaluate();
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(136d));
     }
@@ -109,8 +138,12 @@ public class ResolutionTest {
     public void shouldResolveSimpleFunction8() {
         Variable five = new Variable(5);
         Variable eight = new Variable(8);
-        Function function = new FunctionBuilder(new FunctionBuilder(five, List.of(OperationType.SUBTRACT), five), List.of(OperationType.MULTIPLY), eight);
-        final Double result = function.evaluate();
+        Function function = new FunctionBuilder(new FunctionBuilder(five, OperationType.SUBTRACT, five), OperationType.MULTIPLY, eight);
+
+        EvaluateVisitor visitor = new EvaluateVisitor();
+        function.accept(visitor);
+
+        final Double result = visitor.getResult(function);
 
         assertThat(result, equalTo(0d));
     }
